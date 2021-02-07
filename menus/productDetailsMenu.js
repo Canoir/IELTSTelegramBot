@@ -24,7 +24,9 @@ module.exports = {
     });
     menu.url(
       CONSTANTS.buyProductButtonText(),
-      (ctx) => CONSTANTS.IELTSExamDetails(ctx.match[1], ctx.match[2],"091").payLink,
+      (ctx) =>
+        CONSTANTS.IELTSExamDetails(ctx.match[1], ctx.match[2], ctx.from.id)
+          .payLink,
       {}
     );
     menu.interact(CONSTANTS.backText(), "backToIELTSTypeMenu", {

@@ -2,7 +2,7 @@ module.exports = {
   BotToken: "1658674092:AAET3_9ifGIfPrA1blELvv089C_fgchW8CE",
   ZarinpalMetaKey: "891a5bb8-7400-11e6-a5a7-000c295eb8fc",
   CallbackUrl: "https://localhost:3000/payResult",
-  ZarinpalInfo:{Email:"",PhoneNumber:""},
+  ZarinpalInfo: { Email: "a@gmail.com", PhoneNumber: "09100052611" },
   ExamTypes: () => {
     return [
       { examTypeId: 0, text: "Reading" },
@@ -17,14 +17,14 @@ module.exports = {
       { title: "IELTS General", IELTSExamTypeId: 1 },
     ];
   },
-  IELTSExamDetails: (examTypeId, IELTSExamTypeId, phoneNumber) => {
+  IELTSExamDetails: (examTypeId, IELTSExamTypeId, id) => {
     return {
       title: "موضوع محصول",
       description:
         "توضیحات محصول که بسیار طولانی می باشد و قرار است حوصله کاربر را به شدت به سر ببرد",
       price: "۱۲۴,۰۰۰,۰۰۰ تومان",
       amount: "124000000",
-      payLink: `https://bitter-dragonfly-35.loca.lt/pay?examType=${examTypeId}&ieltsExamType=${IELTSExamTypeId}&phoneNumber=${phoneNumber}`,
+      payLink: `http://localhost:3000/pay?examType=${examTypeId}&ieltsExamType=${IELTSExamTypeId}&id=${id}`,
     };
   },
   backText: () => {

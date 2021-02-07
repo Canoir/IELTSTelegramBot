@@ -14,13 +14,9 @@ bot.use(middlware.middleware());
 bot.launch();
 //Pay
 app.get("/pay", async (req, res) => {
-  const { examType, ieltsType, phoneNumber } = req.query;
-  if (examType && ieltsType && phoneNumber) {
-    const product = CONSTANTS.IELTSExamDetails(
-      examType,
-      ieltsType,
-      phoneNumber
-    );
+  const { examType, ieltsType, id } = req.query;
+  if (examType && ieltsType && id) {
+    const product = CONSTANTS.IELTSExamDetails(examType, ieltsType, id);
     const _res = await create(CONSTANTS.ZarinpalMetaKey, true).PaymentRequest({
       Amount: product.amount,
       CallbackURL: CONSTANTS.CallbackURL,
@@ -29,7 +25,7 @@ app.get("/pay", async (req, res) => {
       Mobile: CONSTANTS.ZarinpalInfo.PhoneNumber,
     });
     if (_res.status == 100) {
-      addMerchant(phoneNumber, _res.authority, product.amount);
+      addMerchant(id, _res.authority, product.amount);
       res.redirect(_res.url);
     }
   } else {
@@ -38,7 +34,7 @@ app.get("/pay", async (req, res) => {
 });
 app.get("/payResult", async (req, res) => {
   const data = getMerchant(req.query.Authority);
-  const zarinpal = create(CONSTANTS.ZarinpalMetaKey, false);
+  const zarinpal = create(CONSTANTS.ZarinpalMetaKey, true);
   const _res = await zarinpal.PaymentVerification({
     MerchantID: CONSTANTS.ZarinpalMetaKey,
     Amount: data.amount,
@@ -51,10 +47,11 @@ app.get("/payResult", async (req, res) => {
           ? "Success"
           : "Failed!"
         : "Failed",
+    id: data.id,
   });
 });
-function addMerchant(phoneNumber, Authority, amount) {
-  app.locals.merchants[Authority] = { ph: phoneNumber, amount: amount };
+function addMerchant(id, Authority, amount) {
+  app.locals.merchants[Authority] = { id: id, amount: amount };
 }
 function getMerchant(Authority) {
   return app.locals.merchants[Authority];
