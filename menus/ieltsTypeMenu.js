@@ -4,7 +4,7 @@ const CONSTANTS = require("../models/constants.js");
 const { productDetailsMenu } = require("./productDetailsMenu.js");
 
 module.exports = {
-  ieltsTypeMenu: (bot) => {
+  ieltsTypeMenu: () => {
     const menu = new MenuTemplate((ctx) => {
       return MESSAGES.getIELTSTypesMessage();
     });
